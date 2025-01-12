@@ -27,7 +27,7 @@ function App() {
 
   const shareOnTwitter = async (gameName, achievement) => {
     try {
-      const res = await fetch("http://localhost:5000/share-on-twitter", {
+      const res = await fetch("https://catoff-backend.onrender.com/share-on-twitter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
