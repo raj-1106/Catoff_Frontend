@@ -10,7 +10,7 @@ function App() {
     event.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/fetch-stats", {
+      const res = await fetch("https://your-render-app.onrender.com/fetch-stats", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ steamID64 }),
