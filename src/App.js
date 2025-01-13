@@ -14,7 +14,6 @@ function App() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ steamID64 }),
-        mode: 'no-cors'
       });
       const data = await res.json();
       setResponse(data.data || { message: data.message });
