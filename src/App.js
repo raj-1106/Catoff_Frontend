@@ -10,7 +10,7 @@ function App() {
     event.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("https://catoff-backend.vercel.app/fetch-stats", {
+      const res = await fetch("https://catoff-backend.onrender.com/fetch-stats", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ steamID64 }),
@@ -27,7 +27,7 @@ function App() {
 
   const shareOnTwitter = async (gameName, achievement) => {
     try {
-      const res = await fetch("https://catoff-backend.vercel.app/share-on-twitter", {
+      const res = await fetch("https://catoff-backend.onrender.com/share-on-twitter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ 
