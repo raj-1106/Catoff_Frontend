@@ -1,42 +1,54 @@
 import React, { useState } from "react";
-import './App.css'; // Import the CSS file
+import "./App.css"; // Import the CSS file
 
-function App() {
-  const [steamID64, setSteamID64] = useState("");
-  const [response, setResponse] = useState(null);
+const App = () => {
+  const [steamId, setSteamId] = useState("");
+  const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const fetchStats = async () => {
+    if (!steamId) {
+      setError("Please enter a valid Steam ID.");
+      return;
+    }
+
+    setError(null);
     setLoading(true);
+    setStats(null);
+
     try {
-      const res = await fetch("https://catoff-backend.onrender.com/fetch-stats", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ steamID64 }),
-      });
+      const res = await fetch(`https://catoff-backend.onrender.com/stats?steamid=${steamId}`);
       const data = await res.json();
-      setResponse(data.data || { message: data.message });
-    } catch (error) {
-      console.error("Error fetching stats:", error);
-      setResponse({ message: "Something went wrong. Please try again." });
+
+      if (data.error) {
+        setError(data.error);
+      } else {
+        setStats(data.data); // Assuming the API response contains `data`
+      }
+    } catch (err) {
+      console.error("Error fetching stats:", err);
+      setError("Failed to fetch stats. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
 
-  const shareOnTwitter = async (gameName, achievement) => {
+  const convertPlaytimeToHours = (minutes) => {
+    if (!minutes || isNaN(minutes)) return "N/A"; // Handle invalid or missing playtime
+    return (minutes / 60).toFixed(2) + " hours"; // Convert to hours and format
+  };
+
+  // Function to share stats on Twitter
+  const shareOnTwitter = async () => {
     try {
-      const res = await fetch("https://catoff-backend.onrender.com/share-on-twitter", {
+      const response = await fetch("https://catoff-backend.onrender.com/share-on-twitter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          gameName, 
-          achievement: achievement.name, 
-          proofUrl: "YourProofURLHere" 
-        }),
+        body: JSON.stringify({ steamid: steamId }),
       });
-      const data = await res.json();
+
+      const data = await response.json();
       if (data.shareUrl) {
         window.open(data.shareUrl, "_blank");
       }
@@ -47,53 +59,72 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1>Gamer Stats Fetcher</h1>
-      <form onSubmit={handleSubmit} className="form-container">
-        <label className="input-label">
-          Enter SteamID64:
-          <input
-            type="text"
-            value={steamID64}
-            onChange={(e) => setSteamID64(e.target.value)}
-            required
-            className="input-field"
-          />
-        </label>
-        <button type="submit" disabled={loading} className="submit-btn">
-          {loading ? "Fetching..." : "Fetch Stats"}
+      <h1>Player Stats For Counter-Strike 2</h1>
+
+      <div className="form-container">
+        <input
+          className="input-field"
+          type="text"
+          placeholder="Enter Steam ID"
+          value={steamId}
+          onChange={(e) => setSteamId(e.target.value)}
+        />
+        <button
+          className="submit-btn"
+          onClick={fetchStats}
+          disabled={loading}
+        >
+          Fetch Stats
         </button>
-      </form>
-      {response && (
+      </div>
+
+      {loading && <p>Loading stats...</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      {stats && (
         <div className="response-container">
-          <h2>Fetched Data:</h2>
-          <pre>
-            {response.games
-              ? response.games.map((game, index) => (
-                  <div key={index} className="game-card">
-                    <h3>{game.name}</h3>
-                    <p>Achievements:</p>
-                    <ul>
-                      {Array.isArray(game.achievements) &&
-                        game.achievements.map((ach, i) => (
-                          <li key={i}>
-                            {ach.name || "Unnamed Achievement"} - {ach.achieved}
-                            <button 
-                              onClick={() => shareOnTwitter(game.name, ach)} 
-                              className="share-btn"
-                            >
-                              Share on X
-                            </button>
-                          </li>
-                        ))}
-                    </ul>
-                  </div>
-                ))
-              : response.message}
-          </pre>
+          <h2>Player Summary</h2>
+          <p>Name: {stats.playerSummary?.personaname || "N/A"}</p>
+          <p>
+            Profile URL:{" "}
+            <a
+              href={stats.playerSummary?.profileurl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View Profile
+            </a>
+          </p>
+
+          <h2>Game Stats</h2>
+          <ul>
+            <li>Kills: {stats.gameStats?.kills || "N/A"}</li>
+            <li>Deaths: {stats.gameStats?.deaths || "N/A"}</li>
+            <li>
+              Accuracy:{" "}
+              {stats.gameStats?.accuracy
+                ? `${stats.gameStats.accuracy}%`
+                : "N/A"}
+            </li>
+            <li>
+              Kill/Death Ratio:{" "}
+              {stats.gameStats?.kills && stats.gameStats?.deaths
+                ? (stats.gameStats.kills / stats.gameStats.deaths).toFixed(2)
+                : "N/A"}
+            </li>
+            <li>Damage Done: {stats.gameStats?.damage_done || "N/A"}</li>
+            <li>Shots Fired: {stats.gameStats?.shots_fired || "N/A"}</li>
+            <li>Playtime: {convertPlaytimeToHours(stats.gameStats?.playtime)}</li>
+          </ul>
+
+          {/* Twitter share button */}
+          <button className="submit-btn" onClick={shareOnTwitter}>
+            Share Stats on Twitter
+          </button>
         </div>
       )}
     </div>
   );
-}
+};
 
 export default App;
