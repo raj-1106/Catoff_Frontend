@@ -1,6 +1,6 @@
 body {
-  background-color: #2c3e50; /* Dark Blue-Grey */
-  color: #ecf0f1; /* Cloud White */
+  background-color: #2c3e50; 
+  color: #ecf0f1; 
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
@@ -11,14 +11,14 @@ body {
   margin: 0 auto;
   padding: 20px;
   text-align: center;
-  background-color: #34495e; /* Charcoal Grey */
+  background-color: #34495e; 
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 h1 {
   font-size: 2.5rem;
-  color: #1abc9c; /* Turquoise */
+  color: #1abc9c; 
   margin-bottom: 20px;
 }
 
@@ -32,7 +32,7 @@ h1 {
 .input-label {
   margin-bottom: 10px;
   font-size: 1.1rem;
-  color: #ecf0f1; /* Cloud White */
+  color: #ecf0f1; 
 }
 
 .input-field {
@@ -40,9 +40,9 @@ h1 {
   padding: 10px;
   font-size: 1rem;
   border-radius: 5px;
-  border: 1px solid #7f8c8d; /* Grey for input border */
-  background-color: #34495e; /* Charcoal Grey */
-  color: #ecf0f1; /* Cloud White */
+  border: 1px solid #7f8c8d; 
+  background-color: #34495e; 
+  color: #ecf0f1; 
   margin-bottom: 20px;
 }
 
@@ -51,33 +51,33 @@ h1 {
   font-size: 1rem;
   border: none;
   border-radius: 5px;
-  background-color: #3498db; /* Bright Blue */
+  background-color: #3498db; 
   color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .submit-btn:disabled {
-  background-color: #7f8c8d; /* Grey when disabled */
+  background-color: #7f8c8d; 
   cursor: not-allowed;
 }
 
 .submit-btn:hover {
-  background-color: #2980b9; /* Dark Blue */
+  background-color: #2980b9; 
 }
 
 .response-container {
   text-align: left;
   margin-top: 20px;
   padding: 20px;
-  background-color: #34495e; /* Charcoal Grey */
+  background-color: #34495e; 
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .game-card {
-  background-color: #1e2c35; /* Darker Charcoal for cards */
-  border: 1px solid #7f8c8d; /* Grey border for game cards */
+  background-color: #1e2c35; 
+  border: 1px solid #7f8c8d; 
   border-radius: 8px;
   margin: 15px 0;
   padding: 10px;
@@ -85,7 +85,7 @@ h1 {
 
 .game-card h3 {
   font-size: 1.2rem;
-  color: #1abc9c; /* Turquoise */
+  color: #1abc9c; 
 }
 
 ul {
@@ -95,7 +95,7 @@ ul {
 
 li {
   margin: 5px 0;
-  color: #ecf0f1; /* Cloud White */
+  color: #ecf0f1; 
 }
 
 .share-btn {
@@ -103,7 +103,7 @@ li {
   padding: 5px 10px;
   font-size: 0.9rem;
   cursor: pointer;
-  background-color: #1da1f2; /* Twitter Blue */
+  background-color: #1da1f2; 
   color: white;
   border: none;
   border-radius: 3px;
@@ -111,9 +111,26 @@ li {
 }
 
 .share-btn:hover {
-  background-color: #1a91da; /* Darker Twitter Blue */
+  background-color: #1a91da; 
 }
 
 li .share-btn {
   margin-top: 5px;
+}
+
+a {
+  color: #1abc9c; 
+  text-decoration: none; 
+}
+
+a:visited {
+  color: #9b59b6;
+}
+
+a:hover {
+  color: #16a085; 
+}
+
+a:active {
+  color: #2980b9; 
 }
