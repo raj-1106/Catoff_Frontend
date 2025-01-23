@@ -18,7 +18,7 @@ const App = () => {
     setStats(null);
 
     try {
-      const res = await fetch(`https://catoff-backend.onrender.com/stats?steamid=${steamId}`);
+      const res = await fetch(`https://catoff-backend.onrender.com/api/stats?steamid=${steamId}`);
       const data = await res.json();
 
       if (data.error) {
